@@ -17,9 +17,9 @@
         {% endif %}
         {% for p in posts %}
             <div class="post">
-                <h4>{{ p.user.username|title }}</h4>
+                <h4><a href="{% url 'profile' p.user.username %}">{{ p.user.username|title }}</a></h4>
                 <p>{{ p.post }}</p>
-                <span>{{ p.created }}</span>
+                <span>{{ p.created }} | Likes: 0</span>
             </div>
         {% endfor %}
     </div>

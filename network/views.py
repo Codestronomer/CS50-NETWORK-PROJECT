@@ -3,9 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.urls import reverse
 
-from .models import User, Post
+from .models import User, Post, Profile
+from .forms import ProfileEditForm, UserEditForm
 
 
 def index(request):
@@ -55,6 +57,7 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            profile = Profile.objects.create(user=user)
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -76,3 +79,44 @@ def new_post(request):
     else:
         return render(request, "networks/index.html")
 
+
+def profile_view(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    posts = Post.objects.filter(user=user)
+    return render(request, "network/profile.html", {"profile": profile, "posts": posts})
+
+
+@login_required()
+# edits profile
+def edit_profile(request):
+    if request.method == "POST":
+        # Update username and email
+        user = request.user
+        username = request.POST['username']
+        email = request.POST['email']
+        user_obj = User.objects.get(username=request.user)
+        user_obj.username = username
+        user_obj.email = email
+        user_obj.save(update_fields=['username', 'email'])
+
+        date_of_birth = request.POST['date_of_birth']
+        bio = request.POST['bio']
+        location = request.POST['location']
+        file = request.FILES
+        Profile.objects.filter(user=user).update(date_of_birth=date_of_birth, photo=file, location=location, bio=bio)
+
+        messages.success(request, 'Profile updated successfully')
+        return redirect(reverse('profile', args=[username]))
+    else:
+        user = User.objects.get(username=request.user)
+        username = user.username
+        email = user.email
+        user_form = UserEditForm(initial={'username': username, 'email': email})
+
+        profile = Profile.objects.get(user=request.user)
+        bio = profile.bio
+        location = profile.location
+        date_of_birth = profile.date_of_birth
+        profile_form = ProfileEditForm(initial={'bio':bio, 'location': location, 'date_of_birth': date_of_birth})
+        return render(request, "network/edit_profile.html", {"profile_form": profile_form, 'user_form': user_form})
