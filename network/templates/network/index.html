@@ -1,5 +1,26 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+<!-- Form to create a new post -->
+    <div class='container m-2'>
+        <h1>ALL POSTS</h1>
+        {% if request.user.is_authenticated %}
+            <div class="form">
+                <h4>New Post</h4>
+                <form method="POST" action="{% url 'new_post' %}">
+                    {% csrf_token %}
+                    <textarea rows=4 class="form-control" id="post" name="post"></textarea>
+                    <button class="btn btn-primary m-1">Submit</button>
+                </form>
+            </div>
+            <hr>
+        {% endif %}
+        {% for p in posts %}
+            <div class="post">
+                <h4>{{ p.user.username|title }}</h4>
+                <p>{{ p.post }}</p>
+                <span>{{ p.created }}</span>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
