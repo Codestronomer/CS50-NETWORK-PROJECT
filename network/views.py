@@ -80,6 +80,7 @@ def new_post(request):
         return render(request, "networks/index.html")
 
 
+# Renders user profile
 def profile_view(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
@@ -91,7 +92,7 @@ def profile_view(request, username):
 # edits profile
 def edit_profile(request):
     if request.method == "POST":
-        # Update username and email
+        # Update username and email and save
         user = request.user
         username = request.POST['username']
         email = request.POST['email']
@@ -100,6 +101,7 @@ def edit_profile(request):
         user_obj.email = email
         user_obj.save(update_fields=['username', 'email'])
 
+        # Updates profile and save
         date_of_birth = request.POST['date_of_birth']
         bio = request.POST['bio']
         location = request.POST['location']
@@ -109,6 +111,7 @@ def edit_profile(request):
         messages.success(request, 'Profile updated successfully')
         return redirect(reverse('profile', args=[username]))
     else:
+        # Instantiate form with initial values
         user = User.objects.get(username=request.user)
         username = user.username
         email = user.email

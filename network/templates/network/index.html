@@ -19,8 +19,9 @@
             <div class="post">
                 <h4><a href="{% url 'profile' p.user.username %}">{{ p.user.username|title }}</a></h4>
                 <p>{{ p.post }}</p>
-                <span>{{ p.created }} | Likes: 0</span>
+                <span>{{ p.created }} | <button id="like" class="like btn btn-danger">Like</button>
+                    <div id="likes_count">0</div></span>
             </div>
-        {% endfor %}
+        {% endfor %} 
     </div>
 {% endblock %}

@@ -3,9 +3,10 @@
 {% block body %}
     <div class="container">
         <img src="{{ profile.image.url }}" alt="">
-        <h3>{{ profile.user.username }}</h3>
+        <h3>{{ profile.user.username|title }}</h3>
         <p>{{ profile.bio }}</p>
-        <span>{% if profile.location %}{{ profile.location }} | {% endif %}{% if profile.date_of_birth %}{{ profile.date_of_birth }}|{% endif %}Joined: {{profile.joined}}</span>
+        <i class="fas fa-map-marker-alt"></i>{% if profile.location %}{{ profile.location }} | {% endif %}
+            {% if profile.date_of_birth %}{{ profile.date_of_birth }} | {% endif %}Joined: <i class="far fa-calendar-alt"></i>{{profile.joined}} |
         {% if request.user == profile.user %}
             <a href="{% url 'edit_profile' %}">Edit profile</a>
         {% endif %}
