@@ -5,8 +5,8 @@
         <img src="{{ profile.image.url }}" alt="">
         <h3>{{ profile.user.username|title }}</h3>
         <p>{{ profile.bio }}</p>
-        <i class="fas fa-map-marker-alt"></i>{% if profile.location %}{{ profile.location }} | {% endif %}
-            {% if profile.date_of_birth %}{{ profile.date_of_birth }} | {% endif %}Joined: <i class="far fa-calendar-alt"></i>{{profile.joined}} |
+        <i class="fas fa-map-marker-alt"></i> {% if profile.location %}{{ profile.location }} | {% endif %}
+            {% if profile.date_of_birth %} <i class="fas fa-birthday-cake"></i> {{ profile.date_of_birth }} | {% endif %}<i class="far fa-calendar-alt"></i> Joined: {{profile.joined}} |
         {% if request.user == profile.user %}
             <a href="{% url 'edit_profile' %}">Edit profile</a>
         {% endif %}

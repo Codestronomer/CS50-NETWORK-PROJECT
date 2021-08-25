@@ -1,19 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const like_buttons = document.querySelectorAll('#likes_count')
-    like_buttons.forEach(element => {
-        let likes = 0;
-        element.innerHTML = likes
-    })
+    document.querySelector('#like').onclick(function() {
+        let catid = document.querySelector(this).data("cid");
 
-    document.addEventListener('click', event => {
-        const element = event.target;
-        if (element.className === 'like btn btn-danger') {
-            let post = int(document.querySelector('#likes_count').innerHTML)
-            post = post++
-            document.querySelector('#likes_count').innerHTML = post
-        }
+        fetch(`/likepost`, {
+            method: "GET",
+            body: JSON.stringify({post_id: catid})
+        }).then(response => response.data())
+        .then(data => {
+            let total = document.querySelector(`#${catid}`).attributes("data-total")
+            if (document.querySelector(`#${data-value}`) == 'Like') {
+                document.querySelector(`#like${catid}`).text((pasrseInt(total) + 1));
+                document.querySelector(`#heart${catid}`).css('color', 'red')
+                document.querySelector(`#${catid}`).attributes("data-total", parseInt(total) + 1)
+                document.querySelector(`#${catid}`).attributes("data-value", 'unlike')
+            } else {
+                    document.querySelector(`#like${catid}`).text((parseInt(total) - 1));
+                    document.querySelector(`heart${catid}`).css('color', 'black')
+                    document.querySelector(`#${catid}`).attributes("data-total", parseInt(total) - 1)
+                    document.querySelector(`#${catid}`).attributes("data-value", 'like')
+                }
+            })
+        })
     })
-})
 
 
 

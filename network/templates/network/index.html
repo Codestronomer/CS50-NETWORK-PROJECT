@@ -19,8 +19,14 @@
             <div class="post">
                 <h4><a href="{% url 'profile' p.user.username %}">{{ p.user.username|title }}</a></h4>
                 <p>{{ p.post }}</p>
-                <span>{{ p.created }} | <button id="like" class="like btn btn-danger">Like</button>
-                    <div id="likes_count">0</div></span>
+                <span>{{ p.created }}</span>
+                <div id="total-likes">{{ p.liked.all.count }}</div>
+                
+                {% if request.user in p.liked.all %}
+                    <a id="{{ p.id }}" href="#" data-cid="{{ p.id }}" class="likebutton" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i></a>
+                {% else $}
+                    <a id="{{ p.id }}" href="#" data-cid="{{ p.id }}" class="likebutton" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i></a>
+                {% endif %}
             </div>
         {% endfor %} 
     </div>

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+# from .utils import resize_image
 
 
 class User(AbstractUser):
@@ -12,6 +13,7 @@ class Post(models.Model):
     post = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, blank=True)
+    liked = models.ManyToManyField(User, blank=True, default=None, related_name="liked_post")
 
     # Orders post by the time created
     class Meta:
@@ -19,6 +21,10 @@ class Post(models.Model):
 
     def __str__(self):
         return f"Post by {self.user}"
+
+    @property
+    def num_likes(self):
+        return self.liked.all().count()
 
 
 class Profile(models.Model):
@@ -31,4 +37,30 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Profile for user ({self.user.username})"
+
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="commented by")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    content = models.TextField(blank=False)
+    date = models.DateTimeField(auto_now_add=True, null=False, verbose_name="commented on")
+
+    class Meta:
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
+        ordering = ('date',)
+
+    def __str__(self):
+        return f"Comment {self.id} made by {self.user} on post {self.post_id} on {self.date.strftime('%d %b %Y %H:%M:%S')}"
+
+
+class Liked(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name = "liked_by")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name = "likes", null=True, blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name = "likes", null=True, blank=True)
+
+    class Meta:
+        unique_together = [['user', 'post'], ['user', 'comment']]
+
 

@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 
-from .models import User, Post, Profile
+from .models import User, Post, Profile, Liked, Comment
 from .forms import ProfileEditForm, UserEditForm
 
 
@@ -123,3 +123,25 @@ def edit_profile(request):
         date_of_birth = profile.date_of_birth
         profile_form = ProfileEditForm(initial={'bio':bio, 'location': location, 'date_of_birth': date_of_birth})
         return render(request, "network/edit_profile.html", {"profile_form": profile_form, 'user_form': user_form})
+
+
+def like_view(request, action):
+    user = request.user
+    if request.method == "GET":
+        try:
+            if action == "post":
+                post_id = request.GET['post_id']
+                likedpost = Post.objects.get(pk=post_id)
+                if user in likedpost.liked.all():
+                    likedpost.liked.remove(user)
+                    like = Liked.objects.get(user=user, post=likedpost)
+                    like.delete()
+                else:
+                    like = Liked.objects.get_or_create(post=likedpost, user=user)
+                    likedpost.liked.add(user)
+                    likedpost.save()
+                
+                return HttpResponse('success')
+        except like_view.DoesNotExist:
+            return HttpResponse('Action does not exit')
+
