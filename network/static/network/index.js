@@ -34,6 +34,24 @@ likebutton.forEach(element => {
     })
 })
 
+comment_button = document.querySelectorAll('.comment')
+comment_button.forEach(element => {
+    element.addEventListener('click', function() {
+        let post_id = element.getAttribute("data-post");
+        comment = 
+
+        fetch('/comment', {
+            method: "POST", 
+            headers: {"X-CSRFToken": csrftoken},
+            body: JSON.stringify({
+                post_id: post_id,
+                content: 
+            })
+        }
+    }
+}
+
+
 function getCookie(cookie_name) {
     let name = cookie_name + '=';
     let decodedCookie = decodeURIComponent(document.cookie);

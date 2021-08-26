@@ -21,11 +21,24 @@
                 <p>{{ p.post }}</p>
                 <span>{{ p.created }}</span>
                 
-                {% if request.user in p.liked.all %}
-                    <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
-                {% else %}
-                    <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
-                {% endif %}
+                <div class="col">
+                    {% if request.user in p.liked.all %}
+                        <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                    {% else %}
+                        <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <a class="comment-modal" id="post{{p.id}}" href="#" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
+                </div>
+                <div class="modal-container">
+                    <div class="modal">
+                        <span><b>{{ p.user.username }}</b> • {{p.created}}</span>
+                        <p>{{ p.post }}</p>
+                        <textarea class="comment-content" id="comment" rows="2"></textarea>
+                        <button class="comment" id="close">Post</button>
+                    </div>
+                </div>
             </div>
         {% endfor %} 
     </div>

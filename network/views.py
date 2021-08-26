@@ -145,3 +145,16 @@ def like_view(request):
         likedpost.liked.add(user)
         likedpost.save()
     return  JsonResponse({'success': "Post like successful"}, status=200)
+
+
+def comment_view(request):
+    user = request.user
+    if request.method != "POST":
+        return JsonResponse({"error": "Post request required."}, status=400)
+    data = json.loads(request.body)
+    post_id = data.get("post_id")
+    commented_post = Post.objects.get(id=post_id)
+    comment = data.get("comment")
+    new_comment = Comment.objects.get_or_create(user=user, post=commented_post, content=comment)
+    new_comment.save()
+    return JsonResponse({'success': 'Comment posted successfully'}, status=200)
