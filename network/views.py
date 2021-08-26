@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -19,8 +19,8 @@ def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
+        username = request.POST.get("username")
+        password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
@@ -125,23 +125,20 @@ def edit_profile(request):
         return render(request, "network/edit_profile.html", {"profile_form": profile_form, 'user_form': user_form})
 
 
-def like_view(request, action):
+def like_view(request):
     user = request.user
-    if request.method == "GET":
-        try:
-            if action == "post":
-                post_id = request.GET['post_id']
-                likedpost = Post.objects.get(pk=post_id)
-                if user in likedpost.liked.all():
-                    likedpost.liked.remove(user)
-                    like = Liked.objects.get(user=user, post=likedpost)
-                    like.delete()
-                else:
-                    like = Liked.objects.get_or_create(post=likedpost, user=user)
-                    likedpost.liked.add(user)
-                    likedpost.save()
-                
-                return HttpResponse('success')
-        except like_view.DoesNotExist:
-            return HttpResponse('Action does not exit')
-
+    if request.method == "post":
+        post_id = request.POST['post_id']
+        print(post_id)
+        likedpost = Post.objects.get(id=post_id)
+        if user in likedpost.liked.all():
+            likedpost.liked.remove(user)
+            like = Liked.objects.get(user=user, post=likedpost)
+            like.delete()
+        else:
+            like = Liked.objects.get_or_create(post=likedpost, user=user)
+            likedpost.liked.add(user)
+            likedpost.save()
+        return  JsonResponse({'success': "Post like successful"}, status=200)
+    else: 
+        return JsonResponse({'error': "Post like failed"}, status=404)

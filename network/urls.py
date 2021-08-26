@@ -5,11 +5,11 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("login", views.login_view, name="login"),
-    path("logout", views.logout_view, name="logout"),
-    path("register", views.register, name="register"),
-    path("new_post", views.new_post, name= "new_post"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("register/", views.register, name="register"),
+    path("new_post/", views.new_post, name= "new_post"),
     path("profile/<username>", views.profile_view, name="profile"),
-    path("edit_profile", views.edit_profile, name="edit_profile"),
-    path(r"^likepost/$", views.like_view, name="like-post"),
+    path("edit_profile/", views.edit_profile, name="edit_profile"),
+    path("likepost/", views.like_view, name="like-post"),
 ]

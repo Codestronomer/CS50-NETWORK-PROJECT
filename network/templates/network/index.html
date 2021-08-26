@@ -23,9 +23,9 @@
                 <div id="total-likes">{{ p.liked.all.count }}</div>
                 
                 {% if request.user in p.liked.all %}
-                    <a id="{{ p.id }}" href="#" data-cid="{{ p.id }}" class="likebutton" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i></a>
-                {% else $}
-                    <a id="{{ p.id }}" href="#" data-cid="{{ p.id }}" class="likebutton" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i></a>
+                    <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i><span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                {% else %}
+                    <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i><span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
                 {% endif %}
             </div>
         {% endfor %} 

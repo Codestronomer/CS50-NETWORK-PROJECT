@@ -1,28 +1,51 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('#like').onclick(function() {
-        let catid = document.querySelector(this).data("cid");
 
-        fetch(`/likepost`, {
-            method: "GET",
-            body: JSON.stringify({post_id: catid})
-        }).then(response => response.data())
+likebutton = document.querySelectorAll('.likebutton')
+const csrftoken = getCookie('csrftoken')
+
+likebutton.forEach(element => {
+    element.addEventListener('click', function() {
+        let catid = element.getAttribute("data-cid");
+        console.log(catid)
+
+        fetch(`/likepost/`, {
+            method: "post",
+            headers: {"X-CSRFToken": csrftoken},
+            body: JSON.stringify({post_id: catid}),
+        }).then(response => {
+            if (response.status == 200) {
+                return response.json()
+            }
+        })
         .then(data => {
-            let total = document.querySelector(`#${catid}`).attributes("data-total")
-            if (document.querySelector(`#${data-value}`) == 'Like') {
-                document.querySelector(`#like${catid}`).text((pasrseInt(total) + 1));
+            console.log(data)
+            let total = document.querySelector(`#post${catid}`).getAttribute("data-total")
+            if (document.querySelector(`#post${catid}`).getAttribute == 'Like') {
+                document.querySelector(`#liked${catid}`).text((pasrseInt(total) + 1));
                 document.querySelector(`#heart${catid}`).css('color', 'red')
-                document.querySelector(`#${catid}`).attributes("data-total", parseInt(total) + 1)
-                document.querySelector(`#${catid}`).attributes("data-value", 'unlike')
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1)
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'unlike')
             } else {
-                    document.querySelector(`#like${catid}`).text((parseInt(total) - 1));
-                    document.querySelector(`heart${catid}`).css('color', 'black')
-                    document.querySelector(`#${catid}`).attributes("data-total", parseInt(total) - 1)
-                    document.querySelector(`#${catid}`).attributes("data-value", 'like')
-                }
-            })
+                document.querySelector(`#liked${catid}`).text((parseInt(total) - 1));
+                document.querySelector(`#heart${catid}`).css('color', 'black')
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1)
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'like')
+            }
         })
     })
+})
 
-
-
-
+function getCookie(cookie_name) {
+    let name = cookie_name + '=';
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
