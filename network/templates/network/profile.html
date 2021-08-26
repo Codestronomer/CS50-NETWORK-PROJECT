@@ -13,11 +13,17 @@
         <hr>
         <h3>POSTS</h3>
         {% for p in posts %}
-            <div class="post">
-                <h4>{{ p.user.username|title }}</h4>
-                <p>{{ p.post }}</p>
-                <span>{{ p.created }} | Likes: 0</span>
-            </div>
+        <div class="post">
+            <h4><a href="{% url 'profile' p.user.username %}">{{ p.user.username|title }}</a></h4>
+            <p>{{ p.post }}</p>
+            <span>{{ p.created }}</span>
+            
+            {% if request.user in p.liked.all %}
+                <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+            {% else %}
+                <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+            {% endif %}
+        </div>
         {% endfor %}
 
     </div>

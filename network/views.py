@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
+import json
 
 from .models import User, Post, Profile, Liked, Comment
 from .forms import ProfileEditForm, UserEditForm
@@ -125,20 +126,22 @@ def edit_profile(request):
         return render(request, "network/edit_profile.html", {"profile_form": profile_form, 'user_form': user_form})
 
 
+
+@login_required()
 def like_view(request):
     user = request.user
-    if request.method == "post":
-        post_id = request.POST['post_id']
-        print(post_id)
-        likedpost = Post.objects.get(id=post_id)
-        if user in likedpost.liked.all():
-            likedpost.liked.remove(user)
-            like = Liked.objects.get(user=user, post=likedpost)
-            like.delete()
-        else:
-            like = Liked.objects.get_or_create(post=likedpost, user=user)
-            likedpost.liked.add(user)
-            likedpost.save()
-        return  JsonResponse({'success': "Post like successful"}, status=200)
-    else: 
-        return JsonResponse({'error': "Post like failed"}, status=404)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    data = json.loads(request.body)
+    post_id = data.get("post_id")
+    print(post_id)
+    likedpost = Post.objects.get(id=post_id)
+    if user in likedpost.liked.all():
+        likedpost.liked.remove(user)
+        like = Liked.objects.get(user=user, post=likedpost)
+        like.delete()
+    else:
+        like = Liked.objects.get_or_create(post=likedpost, user=user)
+        likedpost.liked.add(user)
+        likedpost.save()
+    return  JsonResponse({'success': "Post like successful"}, status=200)

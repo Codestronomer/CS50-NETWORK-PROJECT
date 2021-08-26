@@ -7,29 +7,29 @@ likebutton.forEach(element => {
         let catid = element.getAttribute("data-cid");
         console.log(catid)
 
-        fetch(`/likepost/`, {
-            method: "post",
+        fetch('/like', {
+            method: "POST",
             headers: {"X-CSRFToken": csrftoken},
-            body: JSON.stringify({post_id: catid}),
+            body: JSON.stringify({'post_id': catid}),
         }).then(response => {
             if (response.status == 200) {
+                let total = document.querySelector(`#post${catid}`).getAttribute("data-total")
+            if (document.querySelector(`#post${catid}`).getAttribute("data-value") == 'Like') {
+                document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) + 1);
+                document.querySelector(`#heart${catid}`).style.color = 'red'
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1)
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Unlike')
+            } else {
+                document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) - 1);
+                document.querySelector(`#heart${catid}`).style.color = 'black'
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1)
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Like')
+            }
                 return response.json()
             }
         })
         .then(data => {
-            console.log(data)
-            let total = document.querySelector(`#post${catid}`).getAttribute("data-total")
-            if (document.querySelector(`#post${catid}`).getAttribute == 'Like') {
-                document.querySelector(`#liked${catid}`).text((pasrseInt(total) + 1));
-                document.querySelector(`#heart${catid}`).css('color', 'red')
-                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1)
-                document.querySelector(`#post${catid}`).setAttribute("data-value", 'unlike')
-            } else {
-                document.querySelector(`#liked${catid}`).text((parseInt(total) - 1));
-                document.querySelector(`#heart${catid}`).css('color', 'black')
-                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1)
-                document.querySelector(`#post${catid}`).setAttribute("data-value", 'like')
-            }
+            console.log(data["success"])
         })
     })
 })
@@ -48,4 +48,8 @@ function getCookie(cookie_name) {
         }
     }
     return "";
+}
+
+function updateLike(element_id) {
+
 }
