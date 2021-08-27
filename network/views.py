@@ -158,3 +158,7 @@ def comment_view(request):
     new_comment = Comment.objects.get_or_create(user=user, post=commented_post, content=comment)
     new_comment.save()
     return JsonResponse({'success': 'Comment posted successfully'}, status=200)
+
+
+def follow_view(request):
+    return JsonResponse({'success': 'Followed successful'})

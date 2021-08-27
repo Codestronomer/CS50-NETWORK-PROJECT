@@ -68,10 +68,6 @@ function getCookie(cookie_name) {
     return "";
 }
 
-function updateLike(element_id) {
-    
-};
-
 const open = document.querySelectorAll('[data-modal-target]')
 const close = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay')
