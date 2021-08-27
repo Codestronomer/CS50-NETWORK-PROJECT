@@ -34,22 +34,22 @@ likebutton.forEach(element => {
     })
 })
 
-comment_button = document.querySelectorAll('.comment')
+comment_button = document.querySelectorAll('.modal-button')
 comment_button.forEach(element => {
     element.addEventListener('click', function() {
         let post_id = element.getAttribute("data-post");
-        comment = 
+        const comment = 
 
         fetch('/comment', {
             method: "POST", 
             headers: {"X-CSRFToken": csrftoken},
             body: JSON.stringify({
                 post_id: post_id,
-                content: 
+                content: comment
             })
-        }
-    }
-}
+        })
+    })
+})
 
 
 function getCookie(cookie_name) {
@@ -69,5 +69,42 @@ function getCookie(cookie_name) {
 }
 
 function updateLike(element_id) {
+    
+};
 
+const open = document.querySelectorAll('[data-modal-target]')
+const close = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+open.forEach(element => {
+    element.addEventListener('click', () => {
+        const modal = document.querySelector(element.dataset.modalTarget)
+        openModal(modal)
+    })
+});
+
+overlay.addEventListener('click', () => {
+    const modals = document.querySelectorAll('.my-modal.active')
+    modals.forEach(modal => {
+        closeModal(modal);
+    })
+})
+
+close.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.my-modal');
+        closeModal(modal);
+    })
+})
+
+function openModal(modal) {
+    if (modal == null) return
+    modal.classList.add('active')
+    overlay.classList.add('active')
+}
+
+function closeModal(modal) {
+    if (modal == null) return
+    modal.classList.remove('active')
+    overlay.classList.remove('active')
 }
