@@ -240,7 +240,9 @@ input {
 }
 
 .profile_name{
-    margin-left: 10px;
+    font-size: 2px;
+    color: rgb(54, 55, 75)
+
 }
 
 .dashboard .p-name,
