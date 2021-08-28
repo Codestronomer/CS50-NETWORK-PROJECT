@@ -4,9 +4,29 @@
 
 body {
     font-family: 'Secular One', sans-serif;
-    background-color:rgb(54, 54, 55);
-    color: white;
+    background: linear-gradient(to right top, rgb(43,44,63),#6cdbeb);
+    position: relative;
+    overflow: hidden;
+    /* display: flex; */
+    /* align-items: center; */
 }
+
+.glass {
+    background: white;
+    min-height: 100vh;
+    width: 100%;
+    top: 10px;
+    margin-left: 60px;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
+    border-radius: 2rem;
+    z-index: 2;
+    backdrop-filter: blur(2rem);
+}
+
 
 .post {
     border: 1px solid white;
@@ -19,6 +39,101 @@ hr {
     background-color: white;
 }
 
+.dashboard {
+    position: fixed;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
+    border-radius: 2rem;
+    padding: 6px 14px;
+    height: 100%;
+    width: 250px;
+}
+
+.dashboard .logo_content .logo{
+    display: flex;
+    height: 70px;
+    width: 100%;
+    align-items: center;
+}
+
+.logo_content .logo i{
+    font-size: 30px;
+    margin-right: 5px;
+}
+
+.logo_content .logo .logo_name{
+    font-size: 20px;
+    font-weight: 400;
+    color: rgb(54, 55, 75);
+    text-decoration: none;
+}
+
+.logo_content .logo a{
+    text-decoration-color: rgb(54, 55, 75);
+}
+
+.dashboard #btn {
+    position: absolute;
+    left: 90%;
+    top: 5px;
+    font-size: 30px;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    transform: translateX(-50%)
+}
+
+.dashboard ul{
+    margin-top: 40px;
+}
+
+.dashboard ul li{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin: 8px 0;
+    list-style: none;
+    font-size: 20px;
+}
+
+.dashboard ul li a{
+    color:rgb(54, 55, 75);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+}
+
+.dashboard ul li a:hover{
+    color: #fff;
+    background: linear-gradient(to right top, #127a8a,#6cdbeb);
+}
+
+.dashboard ul li a i{
+    height: 50px;
+    min-width: 50px;
+    border-radius: 12px; 
+    line-height: 50px;
+    text-align: center;
+    font-size: 25px;
+}
+
+
+
+.nav-item {
+    
+    margin: 2rem 0rem;
+}
+
+ 
+.my-container {
+    
+}
+
 
 .my-modal {
     position: fixed;
@@ -29,9 +144,10 @@ hr {
     border: 1px solid black;
     border-radius: 10px;
     z-index: 10;
-    background-color: #fff;
+    background-color: rgb(30,32,46);
     width: 500px;
     max-width: 80%;
+    box-shadow: 0.5
 }
 
 .my-modal.active {
@@ -78,4 +194,70 @@ hr {
     opacity: 1;
     pointer-events: all;
 
+}
+
+input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
+    padding-left: 12px;
+    outline:transparent;
+}
+
+
+.profile_content{
+    position: absolute;
+    color:rgb(54, 55, 75);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.profile{
+    position: relative;
+    padding: 10px 6px;
+    height: 60px;
+    background: linear-gradient(to right top, #127a8a,#6cdbeb);
+    
+}
+
+.profile_details{
+    display: flex;
+    align-items: center;
+}
+
+.profile-image{
+    height: 45px;
+    width: 45px;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+.profile_name{
+    margin-left: 10px;
+}
+
+.dashboard .p-name,
+.dashboard .profile_link{
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.profile #icon{
+    position: absolute;
+    left: 88%;
+    bottom: 5px;
+    transform: translateX(-50%);
+    min-width: 50px;
+    line-height: 50px;
+    font-size: 25px;
+    border-radius: 12px;
 }

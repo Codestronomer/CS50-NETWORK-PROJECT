@@ -9,6 +9,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/1e3946157d.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
         <link href="{% static 'styles.css' %}" rel="stylesheet">
         <style>
             /* body {
@@ -40,42 +42,73 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        <div class="glass">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Network</a>
-          
-            <div>
-              <ul class="navbar-nav mr-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
+            <div class="dashboard">
+                <div class="logo_content">
+                    <div class="logo">
+                        <i class='bx bx-network-chart'></i>
+                        <a><div class="logo_name">Network</div></a>
+                        <i id="btn" class='bx bx-menu-alt-right'></i>
+                    </div>
+                </div>
+            
+                <ul class="nav-list">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-grid-alt'></i>
+                                <span class="links_name"><strong>{{ user.username }}</strong></span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{% url 'index' %}">
+                            <i class='bx bxs-collection'></i>
+                            <span class="links_name">All Posts</span>
+                        </a>
                     </li>
-                {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index' %}">All Posts</a>
-                </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Following</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                {% endif %}
-              </ul>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="#">
+                                <i class='bx bx-grid-alt'></i>
+                                <span class="links_name">Following</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}">
+                                <i class='bx bx-log-out'></i>
+                                <span class="links_name">Log Out</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}">
+                                <i class='bx bx-log-in'></i>
+                                <span class="links_name">Log In</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'register' %}">
+                                <i class='bx bxs-user-plus'></i>
+                                <span class="links_name">Register</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <div class="profile_content">
+                    <div class="profile">
+                        <div class="profile-details">
+                            <img class="profile-image" src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="">
+                            <div class="profile_name">
+                                <div class="p-name"><a href="">Not signed In.</a></div>
+                                <div class="profile_link"><i id="icon" class='bx bx-log-in'></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </nav>
-        
-        <div class="body">
-            {% block body %}
-            {% endblock %}
         </div>
         <script src="{% static 'network/index.js' %}"></script>
     </body>
