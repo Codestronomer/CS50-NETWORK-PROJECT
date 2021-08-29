@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 body {
@@ -13,17 +14,15 @@ body {
 
 .glass {
     background: white;
-    min-height: 100vh;
     width: 100%;
     top: 10px;
-    margin-left: 60px;
     background: linear-gradient(
         to right bottom,
         rgba(255, 255, 255, 0.7),
         rgba(255, 255, 255, 0.3)
     );
     border-radius: 2rem;
-    z-index: 2;
+    /* z-index: 2; */
     backdrop-filter: blur(2rem);
 }
 
@@ -33,6 +32,11 @@ body {
     border-radius:8px;
     padding: 5px;
     margin-bottom: 10px;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
 }
 
 hr {
@@ -49,7 +53,7 @@ hr {
     border-radius: 2rem;
     padding: 6px 14px;
     height: 100%;
-    width: 250px;
+    width: 240px;
 }
 
 .dashboard .logo_content .logo{
@@ -129,11 +133,6 @@ hr {
     margin: 2rem 0rem;
 }
 
- 
-.my-container {
-    
-}
-
 
 .my-modal {
     position: fixed;
@@ -141,13 +140,19 @@ hr {
     left:50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border: 1px solid black;
+    border: 1px solid transparent;
     border-radius: 10px;
     z-index: 10;
-    background-color: rgb(30,32,46);
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
     width: 500px;
     max-width: 80%;
-    box-shadow: 0.5
+    box-shadow: 0.5;
+    backdrop-filter: blur(10rem);
+    z-index: 2;
 }
 
 .my-modal.active {
@@ -241,14 +246,21 @@ input {
 
 .profile_name{
     font-size: 2px;
-    color: rgb(54, 55, 75)
+    color: rgb(54, 55, 75);
+    
 
+}
+
+.pr-name{
+    margin-right:-2px;
+    margin-top: 15px;
 }
 
 .dashboard .p-name,
 .dashboard .profile_link{
   font-size: 15px;
   font-weight: 400;
+  text-align: center;
   white-space: nowrap;
   z-index: 5;
 }
@@ -262,4 +274,14 @@ input {
     line-height: 50px;
     font-size: 25px;
     border-radius: 12px;
+}
+
+.body{
+    /* position: relative; */
+    top: 0px;
+    bottom: 0;
+    overflow-y: scroll; 
+    /* height: 100%;
+    width: calc(100% - 400px);
+    left: 400px; */
 }

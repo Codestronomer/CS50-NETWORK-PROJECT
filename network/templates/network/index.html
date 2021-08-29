@@ -4,7 +4,7 @@
 
 {% block body %}
 <!-- Form to create a new post -->
-    <div class='my-container m-1'>
+    <div class='container'>
         <h1>ALL POSTS</h1>
         {% if request.user.is_authenticated %}
             <div class="form">
@@ -20,37 +20,46 @@
         <div class="posts">
             {% for p in posts %}
                 <div class="post">
-                    <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px;">
-                    <div class="post-info">
-                        <h4><a href="{% url 'profile' p.user.username %}"><b>{{ p.user.username }}</b></a> • {{p.created|timesince|upto:','}}</h4>
-                        <p>{{ p.post }}</p>
-                        <span>{{ p.created }}</span>
-                        
-                        <div class="col">
-                            {% if request.user in p.liked.all %}
-                                <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
-                            {% else %}
-                                <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
-                            {% endif %}
+                    <div class="row">
+                        <div class="col-1">
+                            <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
                         </div>
-                        <div class="col">
-                            <a class="modal-button" data-modal-target="#my-modal" id="open" href="#" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
-                        </div>
-                        
-                        <div class="my-modal" id="my-modal">
-                            <div class="modal-header">
-                                <div class="title">Reply</div>
-                                <button data-close-button class="close" style="color:white">&times;</button>
+                        <div class="col-5" >
+                            <a href="{% url 'profile' p.user.username %}" style="font-size: 20px;"><b>{{ p.user.username|title }}</b></a> • {{p.created|timesince|upto:','}}
+                            <div class="post-info">
+                                <p>{{ p.post }}</p>
+                                <span>{{ p.created }}</span>
+        
+                                <div class="row">
+                                    <div class="col-3">
+                                        {% if request.user in p.liked.all %}
+                                            <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                                        {% else %}
+                                            <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col">
+                                        <a class="modal-button" data-modal-target="#my-modal" id="open" href="#" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="my-modal" id="my-modal">
+                                    <div class="modal-header">
+                                        <div class="title">Reply</div>
+                                        <button data-close-button class="close" style="color:white">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
+                                        <p>{{ p.post|truncatewords:20 }}</p>
+                                        <span><p>replying to @{{p.user.username}}</p></span>
+                                        <input class="comment-content form-control" id="comment" rows="2"/>
+                                        <button class="comment btn btn-secondary m-1" id="close">Post</button>
+                                    </div>
+                                </div>
+                                <div id="overlay">
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
-                                <p>{{ p.post|truncatewords:20 }}</p>
-                                <span><p>replying to @{{p.user.username}}</p></span>
-                                <input class="comment-content form-control" id="comment" rows="2"/>
-                                <button class="comment btn btn-secondary m-1" id="close">Post</button>
-                            </div>
-                        </div>
-                        <div id="overlay">
                         </div>
                     </div>
                 </div>
