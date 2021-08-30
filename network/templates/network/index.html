@@ -6,17 +6,6 @@
 <!-- Form to create a new post -->
     <div class='container'>
         <h1>Home<i class='bx bxs-home-circle' ></i></h1>
-        {% if request.user.is_authenticated %}
-            <div class="form">
-                <h4>New Post</h4>
-                <form method="POST" action="{% url 'new_post' %}">
-                    {% csrf_token %}
-                    <textarea rows=4 class="form-control" id="post" name="post"></textarea>
-                    <button class="btn btn-primary m-1">Submit</button>
-                </form>
-            </div>
-            <hr>
-        {% endif %}
         <div class="posts">
             {% for p in posts %}
                 <div class="post">
@@ -35,14 +24,30 @@
                                         {% if request.user in p.liked.all %}
                                             <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
                                         {% else %}
-                                            <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:black;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                                            <a class="likebutton"  id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="far fa-heart" id="heart{{p.id}}"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
                                         {% endif %}
                                     </div>
                                     <div class="col">
-                                        <a class="modal-button" data-modal-target="#my-modal" id="open" href="#" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
+                                        <a class="modal-button" data-modal-target="#my-modal" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
                                     </div>
                                 </div>
-                                
+
+                                <!-- Post and comment modal -->
+                                <div class="post-modal" id="post-modal">
+                                    <div class="modal-header">
+                                        <div class="title">New Post</div>
+                                        <button data-close-button class="close" style="color:white">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form">
+                                            <form method="POST" action="{% url 'new_post' %}">
+                                                {% csrf_token %}
+                                                <input type="text" id="new-post" />
+                                                <button class="btn btn-primary m-1">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <div class="my-modal" id="my-modal">
                                     <div class="modal-header">

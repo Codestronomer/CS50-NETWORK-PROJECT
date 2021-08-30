@@ -16,12 +16,13 @@ likebutton.forEach(element => {
                 let total = document.querySelector(`#post${catid}`).getAttribute("data-total")
             if (document.querySelector(`#post${catid}`).getAttribute("data-value") == 'Like') {
                 document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) + 1);
-                document.querySelector(`#heart${catid}`).style.color = 'red'
+                document.querySelector(`#post${catid}`).innerHTML = `<i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span>`;
+                document.querySelector(`#heart${catid}`).style.color = 'red';
                 document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1)
                 document.querySelector(`#post${catid}`).setAttribute("data-value", 'Unlike')
             } else {
                 document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) - 1);
-                document.querySelector(`#heart${catid}`).style.color = 'black'
+                document.querySelector(`#post${catid}`).innerHTML = `<i class="far fa-heart" id="heart{{p.id}}></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span>`;
                 document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1)
                 document.querySelector(`#post${catid}`).setAttribute("data-value", 'Like')
             }
@@ -86,9 +87,23 @@ overlay.addEventListener('click', () => {
     })
 })
 
+overlay.addEventListener('click', () => {
+    const modals = document.querySelectorAll('.post-modal.active')
+    modals.forEach(modal => {
+        closeModal(modal);
+    })
+})
+
 close.forEach(button => {
     button.addEventListener('click', () => {
         const modal = button.closest('.my-modal');
+        closeModal(modal);
+    })
+})
+
+close.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.post-modal');
         closeModal(modal);
     })
 })

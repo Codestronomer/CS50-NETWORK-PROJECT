@@ -134,9 +134,7 @@ hr {
     transition: 200ms ease-in-out;
     border: 1px solid transparent;
     border-radius: 10px;
-    z-index: 10;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);;
-
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     width: 500px;
     max-width: 80%;
     box-shadow: 0.5;
@@ -145,6 +143,26 @@ hr {
 }
 
 .my-modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.post-modal{
+    position: fixed;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    z-index: 10;
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);;
+    width: 500px;
+    max-width: 80%;
+    box-shadow: 0.5;
+    backdrop-filter: blur(10rem);
+}
+
+.post-modal.active {
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -182,7 +200,6 @@ hr {
     bottom: 0px;
     background-color: rgba(0, 0, 0, .5);
     pointer-events: none;
-    z-index: 2;
     backdrop-filter: blur(6rem);
 }
 
@@ -211,16 +228,10 @@ input {
 }
 
 .profile{
-    position: relative;
     padding: 10px 6px;
     height: 60px;
     background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     
-}
-
-.profile_details{
-    display: flex;
-    align-items: center;
 }
 
 .profile-image{
@@ -230,16 +241,10 @@ input {
     border-radius: 30px;
 }
 
-.profile_name{
-    font-size: 2px;
-    color: rgb(54, 55, 75);
-    
-
-}
-
 .pr-name{
     margin-right:-2px;
     margin-top: 15px;
+    color: rgb(54, 55, 75);
 }
 
 .dashboard .p-name,
@@ -251,14 +256,14 @@ input {
   z-index: 5;
 }
 
-.profile #icon{
+.col-3 #icon{
     position: absolute;
     left: 88%;
-    bottom: 5px;
     transform: translateX(-50%);
     min-width: 50px;
     line-height: 50px;
     font-size: 25px;
+    align-items: baseline;
     border-radius: 12px;
 }
 
