@@ -1,31 +1,25 @@
 * {
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 body {
     font-family: 'Secular One', sans-serif;
-    background: linear-gradient(to right top, rgb(43,44,63),#6cdbeb);
-    position: relative;
-    overflow: hidden;
-    /* display: flex; */
-    /* align-items: center; */
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
 }
 
 .glass {
     background: white;
     width: 100%;
-    top: 10px;
+    height: 100%;
     background: linear-gradient(
         to right bottom,
         rgba(255, 255, 255, 0.7),
         rgba(255, 255, 255, 0.3)
     );
-    border-radius: 2rem;
-    /* z-index: 2; */
+    z-index: 2;
     backdrop-filter: blur(2rem);
+    padding-bottom: 10px;
 }
-
 
 .post {
     border: 1px solid white;
@@ -33,10 +27,10 @@ body {
     padding: 5px;
     margin-bottom: 10px;
     background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 0.3)
-    );
+        to left top,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.5)
+      );
 }
 
 hr {
@@ -44,16 +38,19 @@ hr {
 }
 
 .dashboard {
+    height: 100%;
+    width: 240px;
     position: fixed;
+    padding: 5px;
+    z-index: 1;
+    top: 0;
+    left: 0;
     background: linear-gradient(
         to right bottom,
         rgba(255, 255, 255, 0.7),
         rgba(255, 255, 255, 0.3)
     );
-    border-radius: 2rem;
-    padding: 6px 14px;
-    height: 100%;
-    width: 240px;
+    border-radius: 1rem;
 }
 
 .dashboard .logo_content .logo{
@@ -66,6 +63,7 @@ hr {
 .logo_content .logo i{
     font-size: 30px;
     margin-right: 5px;
+    margin-left: 7px;
 }
 
 .logo_content .logo .logo_name{
@@ -99,6 +97,7 @@ hr {
     height: 50px;
     width: 100%;
     margin: 8px 0;
+    margin-left: -5px;
     list-style: none;
     font-size: 20px;
 }
@@ -122,17 +121,10 @@ hr {
     min-width: 50px;
     border-radius: 12px; 
     line-height: 50px;
-    text-align: center;
+    text-align: left;
     font-size: 25px;
-}
-
-
-
-.nav-item {
-    
-    margin: 2rem 0rem;
-}
-
+    padding: 4px;
+}       
 
 .my-modal {
     position: fixed;
@@ -143,16 +135,13 @@ hr {
     border: 1px solid transparent;
     border-radius: 10px;
     z-index: 10;
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 0.3)
-    );
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);;
+
     width: 500px;
     max-width: 80%;
     box-shadow: 0.5;
     backdrop-filter: blur(10rem);
-    z-index: 2;
+    z-index: 6;
 }
 
 .my-modal.active {
@@ -163,7 +152,7 @@ hr {
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
 }
 
 .modal-header .title {
@@ -193,6 +182,8 @@ hr {
     bottom: 0px;
     background-color: rgba(0, 0, 0, .5);
     pointer-events: none;
+    z-index: 2;
+    backdrop-filter: blur(6rem);
 }
 
 #overlay.active {
@@ -202,17 +193,12 @@ hr {
 }
 
 input {
-    height: 100%;
-    width: 100%;
+    height: 100px;
+    width: 100%;    
     border: none;
     outline: none;
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 0.3)
-    );
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     padding-left: 12px;
-    outline:transparent;
 }
 
 
@@ -228,7 +214,7 @@ input {
     position: relative;
     padding: 10px 6px;
     height: 60px;
-    background: linear-gradient(to right top, #127a8a,#6cdbeb);
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     
 }
 
@@ -277,11 +263,6 @@ input {
 }
 
 .body{
-    /* position: relative; */
-    top: 0px;
-    bottom: 0;
-    overflow-y: scroll; 
-    /* height: 100%;
-    width: calc(100% - 400px);
-    left: 400px; */
+    margin-left: 250px; /* Same as the width of the sidenav */
+
 }

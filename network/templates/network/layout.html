@@ -43,90 +43,85 @@
             </ul>
         {% endif %}
         <div class="glass">
-            <div class="row">
-                <div class="col-2">
-                    <div class="dashboard">
-                        <div class="logo_content">
-                            <div class="logo">
-                                <i class='bx bx-network-chart'></i>
-                                <a><div class="logo_name">Network</div></a>
-                                <i id="btn" class='bx bx-menu-alt-right'></i>
-                            </div>
+                <div class="dashboard">
+                    <div class="logo_content">
+                        <div class="logo">
+                            <i class='bx bxs-message-square-detail'></i>
+                            <a><div class="logo_name">Network</div></a>
+                            <i id="btn" class='bx bx-menu-alt-right'></i>
                         </div>
-                    
-                        <ul class="nav-list">
-                            {% if user.is_authenticated %}
-                                <li>
-                                    <a href="#">
-                                        <i class='bx bx-grid-alt'></i>
-                                        <span class="links_name"><strong>{{ user.username }}</strong></span>
-                                    </a>
-                                </li>
-                            {% endif %}
+                    </div>
+                
+                    <ul class="nav-list">
+                        {% if user.is_authenticated %}
                             <li>
-                                <a href="{% url 'index' %}">
-                                    <i class='bx bxs-collection'></i>
-                                    <span class="links_name">All Posts</span>
+                                <a href="#">
+                                    <i class='bx bx-grid-alt'></i>
+                                    <span class="links_name"><strong>{{ user.username|title }}</strong></span>
                                 </a>
                             </li>
-                            {% if user.is_authenticated %}
-                                <li>
-                                    <a href="#">
-                                        <i class='bx bx-grid-alt'></i>
-                                        <span class="links_name">Following</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'logout' %}">
-                                        <i class='bx bx-log-out'></i>
-                                        <span class="links_name">Log Out</span>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="{% url 'login' %}">
-                                        <i class='bx bx-log-in'></i>
-                                        <span class="links_name">Log In</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'register' %}">
-                                        <i class='bx bxs-user-plus'></i>
-                                        <span class="links_name">Register</span>
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-        
-                        <div class="profile_content">
-                            <div class="profile">
-                                <div class="profile-details">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <img class="profile-image" src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="">
-                                        </div>
-                                        <div class="pr-name col-5">
-                                            <div class="p-name" style="margin-top: 0px;"><a href="" style="color:black">Not signed In.</a></div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="profile_link"><i id="icon" class='bx bx-log-in'></i></div>
-                                        </div>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'index' %}">
+                                <i class='bx bxs-dashboard'></i>
+                                <span class="links_name">All Posts</span>
+                            </a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="#">
+                                    <i class='bx bxs-group'></i>
+                                    <span class="links_name">Following</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">
+                                    <i class='bx bx-log-out'></i>
+                                    <span class="links_name">Log Out</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    <i class='bx bx-log-in'></i>
+                                    <span class="links_name">Log In</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register' %}">
+                                    <i class='bx bxs-user-plus'></i>
+                                    <span class="links_name">Register</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+    
+                    <div class="profile_content">
+                        <div class="profile">
+                            <div class="profile-details">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img class="profile-image" src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="">
                                     </div>
-                                    <div class="profile_name">
+                                    <div class="pr-name col-5">
+                                        <div class="p-name" style="margin-top: px;"><a href="" style="color:black">Not signed In.</a></div>
                                     </div>
+                                    <div class="col-3">
+                                        <div class="profile_link"><i id="icon" class='bx bx-log-in'></i></div>
+                                    </div>
+                                </div>
+                                <div class="profile_name">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-7">
-                    <div class="body">
-                        {% block body %}
-                        {% endblock %}
-                    </div>
+                <div class="body">
+                    {% block body %}
+                    {% endblock %}
                 </div>
-                <div class="col-2"></div>
             </div>
+            
 
         </div>
         <script src="{% static 'network/index.js' %}"></script>
