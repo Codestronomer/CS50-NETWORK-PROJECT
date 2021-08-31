@@ -154,9 +154,8 @@ def comment_view(request):
     data = json.loads(request.body)
     post_id = data.get("post_id")
     commented_post = Post.objects.get(id=post_id)
-    comment = data.get("comment")
-    new_comment = Comment.objects.get_or_create(user=user, post=commented_post, content=comment)
-    new_comment.save()
+    comment = data.get("content")
+    Comment.objects.create(user=user, post=commented_post, content=comment)
     return JsonResponse({'success': 'Comment posted successfully'}, status=200)
 
 

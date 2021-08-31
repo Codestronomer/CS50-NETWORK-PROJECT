@@ -16,15 +16,16 @@ likebutton.forEach(element => {
                 let total = document.querySelector(`#post${catid}`).getAttribute("data-total")
             if (document.querySelector(`#post${catid}`).getAttribute("data-value") == 'Like') {
                 document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) + 1);
-                document.querySelector(`#post${catid}`).innerHTML = `<i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span>`;
+                document.querySelector(`#heart${catid}`).className = "fa fa-heart";
                 document.querySelector(`#heart${catid}`).style.color = 'red';
-                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1)
-                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Unlike')
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) + 1);
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Unlike');
             } else {
                 document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) - 1);
-                document.querySelector(`#post${catid}`).innerHTML = `<i class="far fa-heart" id="heart{{p.id}}></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span>`;
-                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1)
-                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Like')
+                document.querySelector(`#heart${catid}`).className = "far fa-heart";
+                document.querySelector(`#heart${catid}`).style.color = 'black';
+                document.querySelector(`#post${catid}`).setAttribute("data-total", parseInt(total) - 1);
+                document.querySelector(`#post${catid}`).setAttribute("data-value", 'Like');
             }
                 return response.json()
             }
@@ -35,11 +36,13 @@ likebutton.forEach(element => {
     })
 })
 
-comment_button = document.querySelectorAll('.modal-button')
+comment_button = document.querySelectorAll('.comment')
 comment_button.forEach(element => {
     element.addEventListener('click', function() {
-        let post_id = element.getAttribute("data-post");
-        const comment = 
+        let post_id = element.getAttribute("data-comment");
+        const comment = document.querySelector(`#comment${post_id}`).value;
+        console.log(comment)
+
 
         fetch('/comment', {
             method: "POST", 
@@ -48,9 +51,16 @@ comment_button.forEach(element => {
                 post_id: post_id,
                 content: comment
             })
+        }).then(response => {
+            if (response.status == 200) {
+                return response.json()
+            }
         })
+        // .then(data => {
+        //     console.log(data['success'])
+        // })
     })
-})
+});
 
 
 function getCookie(cookie_name) {
@@ -107,6 +117,7 @@ close.forEach(button => {
         closeModal(modal);
     })
 })
+
 
 function openModal(modal) {
     if (modal == null) return

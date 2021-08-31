@@ -22,33 +22,22 @@
                                 <div class="row">
                                     <div class="col-3">
                                         {% if request.user in p.liked.all %}
-                                            <a class="likebutton" id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                                            <a class="likebutton" id="post{{ p.id }}" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Unlike" value="submit"><i class="fa fa-heart" id="heart{{p.id}}" style="color:red;"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
                                         {% else %}
-                                            <a class="likebutton"  id="post{{ p.id }}" href="#" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="far fa-heart" id="heart{{p.id}}"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
+                                            <a class="likebutton"  id="post{{ p.id }}" data-cid="{{ p.id }}" data-total="{{p.liked.all.count}}" data-value="Like" value="submit"><i class="far fa-heart" id="heart{{p.id}}"></i> <span id="liked{{p.id}}">{{p.liked.all.count}}</span></a>
                                         {% endif %}
                                     </div>
                                     <div class="col">
                                         <a class="modal-button" data-modal-target="#my-modal" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
                                     </div>
                                 </div>
-
-                                <!-- Post and comment modal -->
-                                <div class="post-modal" id="post-modal">
-                                    <div class="modal-header">
-                                        <div class="title">New Post</div>
-                                        <button data-close-button class="close" style="color:white">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form">
-                                            <form method="POST" action="{% url 'new_post' %}">
-                                                {% csrf_token %}
-                                                <input type="text" id="new-post" />
-                                                <button class="btn btn-primary m-1">Submit</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                <div class="comment">
+                                    {% for comment in p.comments.all %}
+                                        <p>{{ comment.name }}</p>
+                                        {% endfor %}
                                 </div>
-                                
+
+                                <!-- comment modal -->
                                 <div class="my-modal" id="my-modal">
                                     <div class="modal-header">
                                         <div class="title">Reply</div>
@@ -58,8 +47,8 @@
                                         <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
                                         <p>{{ p.post|truncatewords:20 }}</p>
                                         <span><p>replying to @{{p.user.username}}</p></span>
-                                        <input class="comment-content form-control" id="comment" rows="2"/>
-                                        <button class="comment btn btn-secondary m-1" id="close">Post</button>
+                                        <input class="comment-content form-control" id="comment{{p.id}}" rows="2"/>
+                                        <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
                                     </div>
                                 </div>
                                 <div id="overlay">
@@ -69,6 +58,23 @@
                     </div>
                 </div>
             {% endfor %} 
+            <!-- post modal -->
+            <div class="post-modal" id="post-modal">
+                <div class="modal-header">
+                    <div class="title">New Post</div>
+                    <button data-close-button class="close" style="color:white">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <form method="POST" action="{% url 'new_post' %}">
+                            {% csrf_token %}
+                            <input type="text" id="new-post" />
+                            <button class="btn btn-primary m-1">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 {% endblock %}

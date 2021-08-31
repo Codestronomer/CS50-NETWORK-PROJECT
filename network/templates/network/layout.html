@@ -95,11 +95,14 @@
                         </li>
                     {% endif %}
                     <li>
-                        <a class="modal-button" data-modal-target="#post-modal" id="open" href="#">
+                        <a class="modal-button" data-modal-target="#post-modal" id="open">
                             <i class='bx bx-edit'></i>
                             <span class="links_name">Post</span>
                         </a>
                     </li>
+                    <div id="overlay">
+                        
+                    </div>
                 </ul>
 
                 {% if request.user.is_authenticated %}
