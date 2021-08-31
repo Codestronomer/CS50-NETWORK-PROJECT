@@ -44,6 +44,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="commented by")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField(blank=False)
+    liked = models.ManyToManyField(User, blank=True, default=None, related_name="liked_comment")
     date = models.DateTimeField(auto_now_add=True, null=False, verbose_name="commented on")
 
     class Meta:

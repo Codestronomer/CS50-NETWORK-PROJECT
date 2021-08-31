@@ -30,7 +30,19 @@ body {
         to left top,
         rgba(255, 255, 255, 0.8),
         rgba(255, 255, 255, 0.5)
-      );
+    );
+}
+
+.post_comment {
+    border: 1px solid white;
+    border-radius:8px;
+    padding: 5px;
+    margin-bottom: 10px;
+    background: linear-gradient(
+        to left top,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.5)
+    );
 }
 
 hr {

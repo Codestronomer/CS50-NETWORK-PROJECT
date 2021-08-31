@@ -40,7 +40,7 @@ comment_button = document.querySelectorAll('.comment')
 comment_button.forEach(element => {
     element.addEventListener('click', function() {
         let post_id = element.getAttribute("data-comment");
-        const comment = document.querySelector(`#comment${post_id}`).valu;
+        const comment = document.querySelector(`#post_comment${post_id}`).value;
         console.log(comment)
 
 
@@ -62,6 +62,41 @@ comment_button.forEach(element => {
     })
 });
 
+const comment_like_button = document.querySelectorAll('.comment_like_button')
+
+comment_like_button.forEach(element => {
+    element.addEventListener('click', function() {
+        let catid = element.getAttribute("data-comment-id");
+        console.log(catid)
+
+        fetch('/likecomment', {
+            method: "POST",
+            headers: {"X-CSRFToken": csrftoken},
+            body: JSON.stringify({'comment_id': catid}),
+        }).then(response => {
+            if (response.status == 200) {
+                let total = document.querySelector(`#comment${catid}`).getAttribute("data-total")
+            if (document.querySelector(`#comment${catid}`).getAttribute("data-value") == 'Like') {
+                document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) + 1);
+                document.querySelector(`#heart${catid}`).className = "fa fa-heart";
+                document.querySelector(`#heart${catid}`).style.color = 'red';
+                document.querySelector(`#comment${catid}`).setAttribute("data-total", parseInt(total) + 1);
+                document.querySelector(`#comment${catid}`).setAttribute("data-value", 'Unlike');
+            } else {
+                document.querySelector(`#liked${catid}`).innerHTML = (parseInt(total) - 1);
+                document.querySelector(`#heart${catid}`).className = "far fa-heart";
+                document.querySelector(`#heart${catid}`).style.color = 'black';
+                document.querySelector(`#comment${catid}`).setAttribute("data-total", parseInt(total) - 1);
+                document.querySelector(`#comment${catid}`).setAttribute("data-value", 'Like');
+            }
+                return response.json()
+            }
+        })
+        .then(data => {
+            console.log(data["success"])
+        })
+    })
+})
 
 
 

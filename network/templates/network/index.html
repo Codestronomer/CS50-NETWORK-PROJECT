@@ -31,7 +31,7 @@
                                         <a class="modal-button" data-modal-target="#my-modal" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
                                     </div>
                                 </div>
-                                <div class="comment">
+                                <div class="post_comment">
                                     {% for comment in p.comments.all %}
                                         {% include 'network/comments.html' %}
                                     {% endfor %}
@@ -47,7 +47,7 @@
                                         <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
                                         <p>{{ p.post|truncatewords:20 }}</p>
                                         <span><p>replying to @{{p.user.username}}</p></span>
-                                        <input class="comment-content form-control" id="comment{{p.id}}" rows="2"/>
+                                        <input class="comment-content form-control" id="post_comment{{p.id}}" rows="2"/>
                                         <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
                                     </div>
                                 </div>
