@@ -128,7 +128,7 @@ def edit_profile(request):
 
 
 @login_required()
-def like_view(request):
+def like_post_view(request):
     user = request.user
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
@@ -146,7 +146,27 @@ def like_view(request):
         likedpost.save()
     return  JsonResponse({'success': "Post like successful"}, status=200)
 
+@login_required()
+def like_comment_view(request):
+    user = request.user
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    data = json.loads(request.body)
+    comment_id = data.get("comment_id")
+    print(comment_id)
+    likedcomment = Comment.objects.get(id=comment_id)
+    if user in likedcomment.liked.all():
+        likedcomment.liked.remove(user)
+        like = Liked.objects.get(user=user, comment=likedcomment)
+        like.delete()
+    else:
+        like = Liked.objects.get_or_create(comment=likedcomment, user=user)
+        likedcomment.liked.add(user)
+        likedcomment.save()
+    return  JsonResponse({'success': "Post like successful"}, status=200)
 
+
+@login_required()
 def comment_view(request):
     user = request.user
     if request.method != "POST":

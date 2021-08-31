@@ -40,7 +40,7 @@ comment_button = document.querySelectorAll('.comment')
 comment_button.forEach(element => {
     element.addEventListener('click', function() {
         let post_id = element.getAttribute("data-comment");
-        const comment = document.querySelector(`#comment${post_id}`).value;
+        const comment = document.querySelector(`#comment${post_id}`).valu;
         console.log(comment)
 
 
@@ -56,11 +56,13 @@ comment_button.forEach(element => {
                 return response.json()
             }
         })
-        // .then(data => {
-        //     console.log(data['success'])
-        // })
+        .then(data => {
+            console.log(data['success'])
+        })
     })
 });
+
+
 
 
 function getCookie(cookie_name) {
