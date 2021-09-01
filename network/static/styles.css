@@ -286,5 +286,11 @@ input {
 
 .body{
     margin-left: 250px; /* Same as the width of the sidenav */
+}
 
+
+.follow_button {
+    border: 1px solid aqua;
+    border-radius: 5px;
+    background-color: aqua;
 }

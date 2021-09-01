@@ -73,7 +73,7 @@ class Contact(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=False, verbose_name ="followed on", db_index=True)
 
     def __str__(self):
-        return f"{self.user} followed {self.target}"
+        return f"{self.user_from} followed {self.target_user}"
 
 user_model = get_user_model()
 user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name="followers", symmetrical=False))

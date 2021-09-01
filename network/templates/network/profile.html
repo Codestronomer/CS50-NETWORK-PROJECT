@@ -14,7 +14,7 @@
         {% endif %}
 
         {% with total_followers=profile.user.followers.count %}
-            <span>{{ total_followers }}</span> follower{{ total_followers|pluralize }}
+            <span id="followers_count">{{ total_followers }}</span> follower{{ total_followers|pluralize }}
         {% endwith %}
         <br>
         <i class="fas fa-map-marker-alt"></i> {% if profile.location %}{{ profile.location }} | {% endif %}
@@ -22,11 +22,11 @@
         {% if request.user == profile.user %}
             <a href="{% url 'edit_profile' %}">Edit profile</a>
         {% else %}
-            <a data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+            <a data-id="{{ profile.user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow_button">
                 {% if request.user not in user.followers.all %}
                     Follow
                 {% else %}
-                    Unfollow
+                    Following
                 {% endif %}
             </a>
         {% endif %}
