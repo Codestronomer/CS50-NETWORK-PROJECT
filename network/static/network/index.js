@@ -7,7 +7,7 @@ likebutton.forEach(element => {
         let catid = element.getAttribute("data-cid");
         console.log(catid)
 
-        fetch('/like', {
+        fetch('/likepost', {
             method: "POST",
             headers: {"X-CSRFToken": csrftoken},
             body: JSON.stringify({'post_id': catid}),

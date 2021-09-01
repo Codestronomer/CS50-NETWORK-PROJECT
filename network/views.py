@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -7,7 +8,7 @@ from django.contrib import messages
 from django.urls import reverse
 import json
 
-from .models import User, Post, Profile, Liked, Comment
+from .models import User, Post, Profile, Liked, Comment, Contact
 from .forms import ProfileEditForm, UserEditForm
 
 
@@ -134,17 +135,18 @@ def like_post_view(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
     post_id = data.get("post_id")
-    print(post_id)
-    likedpost = Post.objects.get(id=post_id)
-    if user in likedpost.liked.all():
-        likedpost.liked.remove(user)
-        like = Liked.objects.get(user=user, post=likedpost)
-        like.delete()
-    else:
-        like = Liked.objects.get_or_create(post=likedpost, user=user)
-        likedpost.liked.add(user)
-        likedpost.save()
-    return  JsonResponse({'success': "Post like successful"}, status=200)
+    if post_id:
+        print(post_id)
+        likedpost = Post.objects.get(id=post_id)
+        if user in likedpost.liked.all():
+            likedpost.liked.remove(user)
+            like = Liked.objects.get(user=user, post=likedpost)
+            like.delete()
+        else:
+            like = Liked.objects.get_or_create(post=likedpost, user=user)
+            likedpost.liked.add(user)
+            likedpost.save()
+        return  JsonResponse({'success': "Post like successful"}, status=200)
 
 @login_required()
 def like_comment_view(request):
@@ -153,17 +155,18 @@ def like_comment_view(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
     comment_id = data.get("comment_id")
-    print(comment_id)
-    likedcomment = Comment.objects.get(id=comment_id)
-    if user in likedcomment.liked.all():
-        likedcomment.liked.remove(user)
-        like = Liked.objects.get(user=user, comment=likedcomment)
-        like.delete()
-    else:
-        like = Liked.objects.get_or_create(comment=likedcomment, user=user)
-        likedcomment.liked.add(user)
-        likedcomment.save()
-    return  JsonResponse({'success': "Post like successful"}, status=200)
+    if comment_id:
+        print(comment_id)
+        likedcomment = Comment.objects.get(id=comment_id)
+        if user in likedcomment.liked.all():
+            likedcomment.liked.remove(user)
+            like = Liked.objects.get(user=user, comment=likedcomment)
+            like.delete()
+        else:
+            like = Liked.objects.get_or_create(comment=likedcomment, user=user)
+            likedcomment.liked.add(user)
+            likedcomment.save()
+        return  JsonResponse({'success': "Post like successful"}, status=200)
 
 
 @login_required()
@@ -173,11 +176,30 @@ def comment_view(request):
         return JsonResponse({"error": "Post request required."}, status=400)
     data = json.loads(request.body)
     post_id = data.get("post_id")
-    commented_post = Post.objects.get(id=post_id)
-    comment = data.get("content")
-    Comment.objects.create(user=user, post=commented_post, content=comment)
-    return JsonResponse({'success': 'Comment posted successfully'}, status=200)
+    if post_id:
+        commented_post = Post.objects.get(id=post_id)
+        comment = data.get("content")
+        Comment.objects.create(user=user, post=commented_post, content=comment)
+        return JsonResponse({'success': 'Comment posted successfully'}, status=200)
 
-
+@login_required
+@require_POST
 def follow_view(request):
-    return JsonResponse({'success': 'Followed successful'})
+    if request.method != "POST":
+        return JsonResponse({'error': 'Post request required.'})
+    data = json.loads(request.body)
+    user_id = data.get("user_id")
+    action = data.get("action")
+    if user_id and action:
+        try:
+            user = User.objects.get(id=user_id)
+            if action == "follow":
+                Contact.objects.get_or_create(user_from=request.user, target_user=user)
+            elif action == "unfollow":
+                Contact.objects.filter(user_from=request.user, target_user=user).delete()
+            else:
+                pass
+            return JsonResponse({'status': 'ok'})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'error'})
+    return JsonResponse({'status': 'error'})
