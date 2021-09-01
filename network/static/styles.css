@@ -45,6 +45,11 @@ body {
     );
 }
 
+.comment-separation {
+    margin: 0px auto;
+    width: 80%;
+}
+
 hr {
     background-color: white;
 }

@@ -8,6 +8,20 @@
         <h1>Home<i class='bx bxs-home-circle' ></i></h1>
         <div class="posts">
             {% for p in posts %}
+                <!-- comment modal -->
+                <div class="my-modal" id="my-modal{{ p.id }}">
+                    <div class="modal-header">
+                        <div class="title">Reply</div>
+                        <button data-close-button class="close" style="color:white">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
+                        <p>{{ p.post|truncatewords:20 }}</p>
+                        <span><p>replying to @{{p.user.username}}</p></span>
+                        <input class="comment-content form-control" id="post_comment{{p.id}}" rows="2"/>
+                        <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
+                    </div>
+                </div>
                 <div class="post">
                     <div class="row">
                         <div class="col-1">
@@ -28,30 +42,14 @@
                                         {% endif %}
                                     </div>
                                     <div class="col">
-                                        <a class="modal-button" data-modal-target="#my-modal" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
+                                        <a class="modal-button" data-modal-target="#my-modal{{ p.id }}" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
                                     </div>
                                 </div>
                                 <div class="post_comment">
                                     {% for comment in p.comments.all %}
                                         {% include 'network/comments.html' %}
+                                        <hr class="comment-separation">
                                     {% endfor %}
-                                </div>
-
-                                <!-- comment modal -->
-                                <div class="my-modal" id="my-modal">
-                                    <div class="modal-header">
-                                        <div class="title">Reply</div>
-                                        <button data-close-button class="close" style="color:white">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <span><b>{{ p.user.username|title }}</b> • {{p.created|timesince|upto:','}}</span>
-                                        <p>{{ p.post|truncatewords:20 }}</p>
-                                        <span><p>replying to @{{p.user.username}}</p></span>
-                                        <input class="comment-content form-control" id="post_comment{{p.id}}" rows="2"/>
-                                        <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
-                                    </div>
-                                </div>
-                                <div id="overlay">
                                 </div>
                             </div>
                         </div>
@@ -74,7 +72,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 {% endblock %}
