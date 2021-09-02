@@ -23,14 +23,16 @@ body {
 
 .post {
     border: 1px solid white;
-    border-radius:8px;
-    padding: 5px;
+    border-radius: 1rem;
+    margin: 2rem 0rem;
+    padding: 2rem;
     margin-bottom: 10px;
     background: linear-gradient(
         to left top,
         rgba(255, 255, 255, 0.8),
         rgba(255, 255, 255, 0.5)
     );
+    box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.212);
 }
 
 .post_comment {
@@ -290,7 +292,9 @@ input {
 
 
 .follow_button {
-    border: 1px solid aqua;
+    border: 1px solid blue;
     border-radius: 5px;
-    background-color: aqua;
+    background-color:blue;
+    cursor: pointer;
+    padding: 5px;
 }

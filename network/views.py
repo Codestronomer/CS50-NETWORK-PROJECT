@@ -148,6 +148,7 @@ def like_post_view(request):
             likedpost.save()
         return  JsonResponse({'success': "Post like successful"}, status=200)
 
+
 @login_required()
 def like_comment_view(request):
     user = request.user
@@ -199,7 +200,7 @@ def follow_view(request):
                 Contact.objects.filter(user_from=request.user, target_user=user).delete()
             else:
                 pass
-            return JsonResponse({'status': 'ok'})
+            return JsonResponse({'status': 'ok'}, status=200)
         except User.DoesNotExist:
-            return JsonResponse({'status': 'error'})
-    return JsonResponse({'status': 'error'})
+            return JsonResponse({'status': 'error'}, status=400)
+    return JsonResponse({'status': 'error'}, status=400)
