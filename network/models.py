@@ -16,8 +16,11 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True, blank=True)
     liked = models.ManyToManyField(User, blank=True, default=None, related_name="liked_post")
 
-    # Orders post by the time created
     class Meta:
+        verbose_name = "post"
+        verbose_name_plural = "posts"
+
+        # Orders post by the time created
         ordering = ('-created',)
 
     def __str__(self):
@@ -81,11 +84,10 @@ class Contact(models.Model):
 
     def get_user_following_posts(self):
         # return posts of users followed by the target user
-        
-        return target_user.post_owner.order_by('-created').all()
+
+        return self.target_user.posts.order_by('-created').all()
 
 user_model = get_user_model()
 user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name="followers", symmetrical=False))
-
 
 

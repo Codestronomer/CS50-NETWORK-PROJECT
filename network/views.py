@@ -83,7 +83,7 @@ def register(request):
 @login_required()
 def new_post(request):
     if request.method == "POST":
-        post = request.POST["post"]
+        post = request.POST.get("post")
         user = request.user
         Post.objects.create(post=post, user=user)
         return redirect('/')
@@ -202,12 +202,18 @@ def following_view(request):
     current_user = User.objects.get(id=user_id)
 
     # gets the post of the users followed by the current user
-    posts = [users.get_user_following_posts for users in current_user.following.all()]
-
-    posts = list(chain(*posts))
+    followings = Contact.objects.filter(user_from=current_user)
+    posts = Post.objects.all().order_by('created').reverse()
+    followed_users_post = []
+    for p in posts:
+        for user in followings:
+            if user.target_user == p.user:
+                followed_users_post.append(p)
+    if not followings:
+        messages.error(request, "Oops! You don't follow anyone.")
 
     # pagination
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(followed_users_post, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
