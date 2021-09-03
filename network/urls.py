@@ -15,4 +15,5 @@ urlpatterns = [
     path("comment", views.comment_view, name="comment-on-post"),
     path("likecomment", views.like_comment_view, name="like-comment"),
     path("follow", views.follow_view, name="follow-view"),
+    path("following", views.following_view, name="following-view"),
 ]

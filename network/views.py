@@ -4,17 +4,26 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.urls import reverse
+from itertools import chain
 import json
 
 from .models import User, Post, Profile, Liked, Comment, Contact
 from .forms import ProfileEditForm, UserEditForm
 
 
+# list all posts by the users
 def index(request):
     posts = Post.objects.all()
-    return render(request, "network/index.html", {"posts": posts})
+
+    # Pagination
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, "network/index.html", {"posts": page_obj})
 
 
 def login_view(request):
@@ -107,7 +116,8 @@ def edit_profile(request):
         date_of_birth = request.POST['date_of_birth']
         bio = request.POST['bio']
         location = request.POST['location']
-        file = request.FILES
+        if len(request.FILES) == 1:
+            file = request.FILES['photo']
         Profile.objects.filter(user=user).update(date_of_birth=date_of_birth, photo=file, location=location, bio=bio)
 
         messages.success(request, 'Profile updated successfully')
@@ -183,6 +193,27 @@ def comment_view(request):
         Comment.objects.create(user=user, post=commented_post, content=comment)
         return JsonResponse({'success': 'Comment posted successfully'}, status=200)
 
+
+# shows the users post that the current user follows.
+def following_view(request):
+    user_id = request.user.id
+    
+    # gets the current user
+    current_user = User.objects.get(id=user_id)
+
+    # gets the post of the users followed by the current user
+    posts = [users.get_user_following_posts for users in current_user.following.all()]
+
+    posts = list(chain(*posts))
+
+    # pagination
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "network/index.html", {"posts": page_obj})
+
+    
 @login_required
 @require_POST
 def follow_view(request):
@@ -204,3 +235,4 @@ def follow_view(request):
         except User.DoesNotExist:
             return JsonResponse({'status': 'error'}, status=400)
     return JsonResponse({'status': 'error'}, status=400)
+

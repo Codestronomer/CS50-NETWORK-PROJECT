@@ -14,7 +14,7 @@
             <p>{{ profile.bio }}</p>
         {% endif %}
 
-        {% with total_followers=profile.user.followers.count %}
+        {% with total_followers=profile.user.following.count %}
             <span id="followers_count">{{ total_followers }}</span> follower{{ total_followers|pluralize }}
         {% endwith %}
         <br>
@@ -23,13 +23,15 @@
         {% if request.user == profile.user %}
             <a href="{% url 'edit_profile' %}">Edit profile</a>
         {% else %}
-            <a class="follow_button" data-id="{{ profile.user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
-                {% if request.user not in user.followers.all %}
+            {% if request.user not in profile.user.following.all %}
+                <a class="follow_button" data-id="{{ profile.user.id }}" data-action="follow">
                     Follow
+                </a>
                 {% else %}
-                    Following
+                    <a class="follow_button" data-id="{{ profile.user.id }}" data-action="unfollow">
+                        Following
+                    </a>
                 {% endif %}
-            </a>
         {% endif %}
         <hr>
         <h3>POSTS</h3>

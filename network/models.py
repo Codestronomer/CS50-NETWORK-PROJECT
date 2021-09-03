@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.contrib.auth import get_user_model
 from django.db import models
-# from .utils import resize_image
+from .utils import resize_image
 
 
 class User(AbstractUser):
@@ -38,6 +38,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"Profile for user ({self.user.username})"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        resize_image(self.image.path, 600, 600)
 
 
 
@@ -74,6 +78,11 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.user_from} followed {self.target_user}"
+
+    def get_user_following_posts(self):
+        # return posts of users followed by the target user
+        
+        return target_user.post_owner.order_by('-created').all()
 
 user_model = get_user_model()
 user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name="followers", symmetrical=False))

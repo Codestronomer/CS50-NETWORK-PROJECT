@@ -49,3 +49,58 @@ follow_button.addEventListener('click', () => {
         }
     })
 })
+
+
+const open = document.querySelectorAll('[data-modal-target]')
+const close = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+open.forEach(element => {
+    element.addEventListener('click', () => {
+        const modal = document.querySelector(element.dataset.modalTarget)
+        openModal(modal)
+    })
+});
+
+overlay.addEventListener('click', () => {
+    const modals = document.querySelectorAll('.my-modal.active')
+    modals.forEach(modal => {
+        closeModal(modal);
+    })
+})
+
+overlay.addEventListener('click', () => {
+    const modals = document.querySelectorAll('.post-modal.active')
+    modals.forEach(modal => {
+        closeModal(modal);
+    })
+})
+
+close.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.my-modal');
+        closeModal(modal);
+    })
+})
+
+close.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.post-modal');
+        closeModal(modal);
+    })
+})
+
+
+function openModal(modal) {
+    if (modal == null) return
+    modal.classList.add('active')
+    overlay.classList.add('active')
+}
+
+function closeModal(modal) {
+    if (modal == null) return
+    modal.classList.remove('active')
+    overlay.classList.remove('active')
+}
+
+
