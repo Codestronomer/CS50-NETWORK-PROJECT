@@ -1,13 +1,15 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <center><h2>EDIT PROFILE</h2></center>
-    <div class="form-control">
-        <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ user_form }}
-            {{ profile_form }}
-            <button class="btn btn-primary m-2">Update profile</button>
-        </form>
+    <div class="posts">
+        <div class="post">
+            <center><h2>EDIT PROFILE</h2></center>
+            <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                <button class="btn btn-primary m-2">Update profile</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

@@ -96,7 +96,12 @@ def profile_view(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
     posts = Post.objects.filter(user=user)
-    return render(request, "network/profile.html", {"profile": profile, "posts": posts})
+    following = Contact.objects.filter(user_from=user)
+    total_following = len(following)
+    return render(request, "network/profile.html", {
+                                                    "profile": profile, 
+                                                    "posts": posts,
+                                                    "total_following": total_following})
 
 
 @login_required()

@@ -66,7 +66,7 @@
                     <div class="form">
                         <form method="POST" action="{% url 'new_post' %}">
                             {% csrf_token %}
-                            <input type="text" id="new-post" name="post" />
+                            <input class="modal-input" type="text" id="new-post" name="post" />
                             <button class="btn btn-primary m-1">Submit</button>
                         </form>
                     </div>

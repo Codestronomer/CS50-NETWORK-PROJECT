@@ -35,17 +35,12 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=500, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
-    photo = models.ImageField(upload_to="users/%Y/%m/%d/", blank=True)
+    photo = models.ImageField(upload_to="profile_pics", blank=True)
     location = models.CharField(max_length=300, blank=True)
     joined = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"Profile for user ({self.user.username})"
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        resize_image(self.image.path, 600, 600)
-
 
 
 class Comment(models.Model):

@@ -15,7 +15,8 @@ body {
         to right bottom,
         rgba(255, 255, 255, 0.7),
         rgba(255, 255, 255, 0.3)
-    );
+        );
+    min-height: 200vh;
     z-index: 2;
     backdrop-filter: blur(2rem);
     padding-bottom: 10px;
@@ -229,12 +230,17 @@ hr {
 }
 
 input {
-    height: 100px;
-    width: 100%;    
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     border: none;
     outline: none;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    border-radius: 5px;
+}
+
+.modal-input {
     padding-left: 12px;
+    height: 100px;
+    width: 100%;
+    border-radius: 0%;    
 }
 
 
@@ -292,10 +298,60 @@ input {
 
 
 .follow_button {
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid #65dfc9;
+    box-shadow: 16px, 16px, 16px, 16px;
     border-radius: 5px;
     background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     cursor: pointer;
     padding: 5px;
-    box-shadow: 6px, 6px, 6px, 6px;
+}
+
+
+.user-profile {
+    height:150px;
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    border-radius: 6px; 
+    margin-bottom: 60px;
+}
+
+.profile-pic {
+    margin-left: 10px;
+    height: 120px;
+    width: 120px;
+    padding: 5px;
+    border-radius: 50%;
+    background: #65dfc9, #6cdbeb;
+    /* background: linear-gradient(90deg, rgba(109,183,132,1) 0%, rgba(153,224,247,1) 26%, rgba(153,179,247,1) 57%, rgba(216,153,247,1) 82%, rgba(247,153,175,1) 100%); */
+    transform: translate(60px, 80px);
+}
+
+.profile-pic img {
+    border: 3px solid #f6f6f6;
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+    cursor: pointer;
+}
+
+.profile-picture img:hover {
+    opacity: 0.8;
+}
+
+/* ------ Media queries ------ */
+@media screen and (max-width: 1017px) {
+    .profile-picture {
+        border-radius: 0px;
+    }
+}
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+
+.user-function {
+    transform: translate(800px, 60px);
+    border: 2px solid #65dfc9;
+    box-shadow: 10px, 16px, 16px, 16px;
+    border-radius: 5px;
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    cursor: pointer;
+    padding: 5px;
+    width: auto;
 }

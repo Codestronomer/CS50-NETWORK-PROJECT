@@ -17,3 +17,7 @@ urlpatterns = [
     path("follow", views.follow_view, name="follow-view"),
     path("following", views.following_view, name="following-view"),
 ]
+
+
+
+

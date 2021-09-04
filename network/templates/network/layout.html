@@ -43,6 +43,10 @@
             </ul>
         {% endif %}
         <div class="glass">
+            <div class="body">
+                {% block body %}
+                {% endblock %}
+            </div>
             <div class="dashboard">
                 <div class="logo_content">
                     <div class="logo">
@@ -51,7 +55,7 @@
                         <i id="btn" class='bx bx-menu-alt-right'></i>
                     </div>
                 </div>
-            
+                
                 <ul class="nav-list">
                     {% if user.is_authenticated %}
                         <li>
@@ -74,6 +78,14 @@
                                 <span class="links_name">Following</span>
                             </a>
                         </li>
+
+                        <li>
+                            <a class="modal-button" data-modal-target="#post-modal" id="open">
+                                <i class='bx bx-edit'></i>
+                                <span class="links_name">Post</span>
+                            </a>
+                        </li>
+    
                         <li>
                             <a href="{% url 'logout' %}">
                                 <i class='bx bx-log-out'></i>
@@ -87,24 +99,17 @@
                                 <span class="links_name">Log In</span>
                             </a>
                         </li>
+
                         <li>
                             <a href="{% url 'register' %}">
                                 <i class='bx bxs-user-plus'></i>
                                 <span class="links_name">Register</span>
                             </a>
                         </li>
-                    {% endif %}
-                    <li>
-                        <a class="modal-button" data-modal-target="#post-modal" id="open">
-                            <i class='bx bx-edit'></i>
-                            <span class="links_name">Post</span>
-                        </a>
-                    </li>
-                    <div id="overlay">
-
-                    </div>
-                </ul>
-
+                        {% endif %}
+                        <div class="overlay">
+                        </div>
+                    </ul>
                 {% if request.user.is_authenticated %}
                     <div class="profile_content">
                         <div class="profile">
@@ -154,10 +159,6 @@
                         </div>
                     </div>
                 {% endif %}
-            </div>
-            <div class="body">
-                {% block body %}
-                {% endblock %}
             </div>
         </div>
         <script src="{% static 'network/index.js' %}"></script>
