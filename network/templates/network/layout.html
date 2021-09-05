@@ -11,7 +11,7 @@
         <script src="https://kit.fontawesome.com/1e3946157d.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/boxicons@2.0.9/dist/boxicons.js"></script>
         <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        <link href="{% static 'styles.css' %} " rel="stylesheet">
         <style>
             /* body {
                 font-family: 'Secular One', sans-serif;
@@ -107,20 +107,20 @@
                             </a>
                         </li>
                         {% endif %}
-                        <div class="overlay">
-                        </div>
                     </ul>
-                {% if request.user.is_authenticated %}
+                    <div class="overlay">
+                    </div>
+                    {% if request.user.is_authenticated %}
                     <div class="profile_content">
                         <div class="profile">
                             <div class="profile-details">
                                 <div class="row">
-                                        <div class="col-3">
-                                            <img class="profile-image" src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="">
-                                        </div>
-                                        <div class="pr-name col-5">
-                                            <div class="p-name" style="font-size: 15px;">{{request.user.username|title}}</a></div>
-                                        </div>
+                                    <div class="col-3">
+                                        <img class="profile-image" src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="">
+                                    </div>
+                                    <div class="pr-name col-5">
+                                        <div class="p-name" style="font-size: 15px;">{{request.user.username|title}}</a></div>
+                                    </div>
                                     <div class="col-3">
                                         <a href="{% url 'logout' %}">
                                             <div class="profile_link"><i style="font-size:25px; left: 88%;
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                {% else %}
+                    {% else %}
                     <div class="profile_content">
                         <div class="profile">
                             <div class="profile-details">

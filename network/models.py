@@ -84,5 +84,3 @@ class Contact(models.Model):
 
 user_model = get_user_model()
 user_model.add_to_class('following', models.ManyToManyField('self', through=Contact, related_name="followers", symmetrical=False))
-
-

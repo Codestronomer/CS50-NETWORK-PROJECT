@@ -7,7 +7,7 @@
             <div class="post">
                 <div class="user-profile">
                     <div class="profile-pic">
-                        {% if profile.photo.url %}
+                        {% if profile.photo %}
                             <img src="{{ profile.photo.url }}" alt="{{profile.user.username}}">
                         {% else %}
                             <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" >
@@ -37,7 +37,7 @@
                 {% endif %}
             
                 <i class="fas fa-map-marker-alt"></i> {% if profile.location %}{{ profile.location }} | {% endif %}
-                {% if profile.date_of_birth %} <i class="fas fa-birthday-cake"></i> {{ profile.date_of_birth }} | {% endif %}<i class="far fa-calendar-alt"></i> Joined: {{profile.joined}} |
+                {% if profile.date_of_birth %} <i class="fas fa-birthday-cake"></i> {{ profile.date_of_birth }} | {% endif %}<i class="far fa-calendar-alt"></i> Joined: {{profile.joined}}
                 
                 <div class="following">
                     <span><b>{{ total_following }}</b> following   </span>  

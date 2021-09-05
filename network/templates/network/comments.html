@@ -1,32 +1,31 @@
 {% load custom_tags %}
 
 
-<div class="post_comment">
-    <div class="row">
-        <div class="col-2">
-            <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
-        </div>
-        <div class="col-7">
-            <a href="{% url 'profile' comment.user.username %}">{{ comment.user.username }}</a> • {{comment.date|timesince|upto:','}}
-            <div class="comment-info">
-                <p> {{ comment.content }}</p>
+<div class="row">
+    <div class="col-2">
+        <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
+    </div>
+    <div class="col-7">
+        <a href="{% url 'profile' comment.user.username %}">{{ comment.user.username }}</a> • {{comment.date|timesince|upto:','}}
+        <div class="comment-info">
+            <p> {{ comment.content }}</p>
 
-                <div class="row">
-                    <div class="col">
-                        {% if request.user in comment.liked.all %}
-                            <a class="comment_like_button" id="comment{{ comment.id }}" data-comment-id="{{ comment.id }}" data-total="{{comment.liked.all.count}}" data-value="Unlike" value="submit">
-                                <i class="fa fa-heart" id="heart{{comment.id}}" style="color:red;"></i> 
-                                <span id="liked{{comment.id}}">{{comment.liked.all.count}}</span>
-                            </a>
-                        {% else %}
-                        <a class="comment_like_button" id="comment{{ comment.id }}" data-comment-id="{{ comment.id }}" data-total="{{comment.liked.all.count}}" data-value="Like" value="submit">
-                            <i class="far fa-heart" id="heart{{comment.id}}"></i> 
+            <div class="row">
+                <div class="col">
+                    {% if request.user in comment.liked.all %}
+                        <a class="comment_like_button" id="comment{{ comment.id }}" data-comment-id="{{ comment.id }}" data-total="{{comment.liked.all.count}}" data-value="Unlike" value="submit">
+                            <i class="fa fa-heart" id="heart{{comment.id}}" style="color:red;"></i> 
                             <span id="liked{{comment.id}}">{{comment.liked.all.count}}</span>
                         </a>
-                        {% endif %}
-                    </div>
+                    {% else %}
+                    <a class="comment_like_button" id="comment{{ comment.id }}" data-comment-id="{{ comment.id }}" data-total="{{comment.liked.all.count}}" data-value="Like" value="submit">
+                        <i class="far fa-heart" id="heart{{comment.id}}"></i> 
+                        <span id="liked{{comment.id}}">{{comment.liked.all.count}}</span>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<br>
