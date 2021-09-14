@@ -22,11 +22,15 @@
                         <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
                     </div>
                 </div>
+                <!-- Posts -->
                 <div class="post">
                     <div class="row">
                         <div class="col-1">
-                            {% p.user}
-                            <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
+                            {% if p.user.profile.photo %}
+                                <img src="{{ p.user.profile.photo.url }}" style="height: 50px; width: 50px; border-radius: 50%;">
+                            {% else %}
+                                <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
+                            {% endif %}
                         </div>
                         <div class="col-6" >
                             <a href="{% url 'profile' p.user.username %}" style="font-size: 20px;"><b>{{ p.user.username|title }}</b></a> • {{p.created|timesince|upto:','}}

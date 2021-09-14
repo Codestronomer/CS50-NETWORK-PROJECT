@@ -8,21 +8,21 @@
                 <div class="user-profile">
                     <div class="profile-pic">
                         {% if profile.photo %}
-                            <img src="{{ profile.photo.url }}" alt="{{profile.user.username}}">
+                            <img src="{{ profile.photo.url }}" alt="{{profile.profile_user.username}}">
                         {% else %}
                             <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" >
                         {% endif %}
                     </div>
                     <button class="user-function">
-                        {% if request.user == profile.user %}
+                        {% if request.user == profile.profile_user %}
                             <a href="{% url 'edit_profile' %}" style="color:black">Edit profile</a>
                         {% else %}
-                            {% if request.user not in profile.user.following.all %}
-                                <a class="follow_button" data-id="{{ profile.user.id }}" data-action="follow">
+                            {% if request.user not in profile.profile_user.following.all %}
+                                <a class="follow_button" data-id="{{ profile.profile_user.id }}" data-action="follow">
                                     Follow
                                 </a>
                             {% else %}
-                                <a class="follow_button" data-id="{{ profile.user.id }}" data-action="unfollow">
+                                <a class="follow_button" data-id="{{ profile.profile_user.id }}" data-action="unfollow">
                                     Following
                                 </a>
                             {% endif %}
@@ -30,7 +30,7 @@
                     </button>
                 </div>
 
-                <h3>{{ profile.user.username|title }}</h3>
+                <h3>{{ profile.profile_user.username|title }}</h3>
 
                 {% if profile.bio %}
                     <b><p>{{ profile.bio }}</p></b>
@@ -41,7 +41,7 @@
                 
                 <div class="following">
                     <span><b>{{ total_following }}</b> following   </span>  
-                    {% with total_followers=profile.user.following.count %}
+                    {% with total_followers=profile.profile_user.following.count %}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span id="followers_count">{{ total_followers }}</span></b> follower{{ total_followers|pluralize }}
                     {% endwith %}
                 </div>
@@ -49,6 +49,7 @@
             </div>
             <h3>POSTS</h3>
             {% for p in posts %}
+            <!-- comment modal -->
             <div class="my-modal" id="my-modal{{ p.id }}">
                 <div class="modal-header">
                     <div class="title">Reply</div>
@@ -62,17 +63,22 @@
                     <button class="comment btn btn-secondary m-1" data-close-button data-comment="{{p.id}}" id="close-comment{{p.id}}">Post</button>
                 </div>
             </div>
+            <!-- Posts -->
             <div class="post">
                 <div class="row">
                     <div class="col-1">
-                        <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
+                        {% if p.user.profile.photo %}
+                            <img src="{{ p.user.profile.photo.url }}" style="height: 50px; width: 50px; border-radius: 50%;">
+                        {% else %}
+                            <img src="https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg" style="height: 50px; width: 50px; border-radius: 50%;">
+                        {% endif %}
                     </div>
                     <div class="col-6" >
                         <a href="{% url 'profile' p.user.username %}" style="font-size: 20px;"><b>{{ p.user.username|title }}</b></a> • {{p.created|timesince|upto:','}}
                         <div class="post-info">
 
                             <p>{{ p.post }}</p>
-
+    
                             <div class="row">
                                 <div class="col-3">
                                     {% if request.user in p.liked.all %}
@@ -85,12 +91,15 @@
                                     <a class="modal-button" data-modal-target="#my-modal{{ p.id }}" id="open" data-post="{{p.id}}"><i class="far fa-comment-alt"></i></a>
                                 </div>
                             </div>
-                            <div class="post_comment">
-                                {% for comment in p.comments.all %}
-                                    {% include 'network/comments.html' %}
-                                    <hr class="comment-separation">
-                                {% endfor %}
-                            </div>
+                            {% if p.comments.all %}
+                                <div class="post_comment">
+                                    <br>
+                                    {% for comment in p.comments.all %}
+                                        {% include 'network/comments.html' %}
+                                        <!-- <hr class="comment-separation"> -->
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

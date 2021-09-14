@@ -17,6 +17,7 @@ from .forms import ProfileEditForm, UserEditForm
 # list all posts by the users
 def index(request):
     posts = Post.objects.all()
+    profile = Profile.objects.all()
 
     # Pagination
     paginator = Paginator(posts, 10)
@@ -68,7 +69,7 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
-            profile = Profile.objects.create(user=user)
+            profile = Profile.objects.create(profile_user=user)
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -94,7 +95,7 @@ def new_post(request):
 # Renders user profile
 def profile_view(request, username):
     user = User.objects.get(username=username)
-    profile = Profile.objects.get(user=user)
+    profile = Profile.objects.get(profile_user=user)
     posts = Post.objects.filter(user=user)
     following = Contact.objects.filter(user_from=user)
     total_following = len(following)
@@ -123,7 +124,7 @@ def edit_profile(request):
         location = request.POST['location']
         if len(request.FILES) == 1:
             file = request.FILES['photo']
-        Profile.objects.filter(user=user).update(date_of_birth=date_of_birth, photo=file, location=location, bio=bio)
+        Profile.objects.filter(profile_user=user).update(date_of_birth=date_of_birth, photo=file, location=location, bio=bio)
 
         messages.success(request, 'Profile updated successfully')
         return redirect(reverse('profile', args=[username]))
@@ -134,7 +135,7 @@ def edit_profile(request):
         email = user.email
         user_form = UserEditForm(initial={'username': username, 'email': email})
 
-        profile = Profile.objects.get(user=request.user)
+        profile = Profile.objects.get(profile_user=request.user)
         bio = profile.bio
         location = profile.location
         date_of_birth = profile.date_of_birth
